@@ -27,6 +27,7 @@ public class Nephilim {
                     }
                     System.out.println(linebrk);
                     break;
+                case "delete":
                 case "unmark":
                 case "mark":
                     int arg = Integer.parseInt(scn.next());
@@ -34,11 +35,18 @@ public class Nephilim {
                         System.out.println("No such task exists.");
                     } else {
                         Task tasc = tasks.get(arg - 1);
-                        String markString = input.equals("mark") ? "Task successfully marked as done: "
-                                                                 : "Task successfully marked as incomplete: ";
+                        String outString = input.equals("mark") ? "Task successfully marked as done: "
+                                                                : input.equals("unmark")
+                                                                ? "Task successfully marked as incomplete: "
+                                                                : "Deleted task: ";
                         if (input.equals("mark")) tasc.setDone();
-                        else tasc.resetDone();
-                        System.out.println(markString + '\n' + tasc);
+                        else if (input.equals("unmark")) tasc.resetDone();
+                        else {
+                            taskCount--;
+                            tasks.remove(arg - 1);
+                        }
+                        System.out.println(outString + '\n' + tasc);
+                        if (input.equals("delete")) System.out.println(taskCount + " tasks remain.");
                     }
                     System.out.println(linebrk);
                     break;
