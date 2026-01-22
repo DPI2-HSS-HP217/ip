@@ -1,0 +1,7 @@
+test task 1
+todo test task 2
+deadline test task 3 /by 2pm
+event test task 4 /from 2pm /to 5pm
+mark 1
+unmark 4
+bye
