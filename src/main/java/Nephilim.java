@@ -11,6 +11,7 @@ public class Nephilim {
 
         //Setup Variables
         ArrayList<Task> tasks = new ArrayList<>(100);
+        int taskCount = 0;
 
         //Read commands
         Scanner scn = new Scanner(System.in);
@@ -29,7 +30,7 @@ public class Nephilim {
                 case "unmark":
                 case "mark":
                     int arg = Integer.parseInt(scn.next());
-                    if (arg < 1 || arg > 100 || Objects.isNull(tasks.get(arg - 1))) {
+                    if (arg < 1 || arg > taskCount) {
                         System.out.println("No such task exists.");
                     } else {
                         Task tasc = tasks.get(arg - 1);
@@ -41,11 +42,39 @@ public class Nephilim {
                     }
                     System.out.println(linebrk);
                     break;
+                case "todo":
+                    taskCount++;
+                    input = scn.nextLine().substring(1);
+                    tasks.add(new Todo(input));
+                    System.out.println(linebrk + '\n' + "Added: " +
+                            input + '\n' + linebrk);
+                    System.out.println("Current task count: " + taskCount);
+                    break;
+                case "deadline":
+                    taskCount++;
+                    input = scn.nextLine().substring(1);
+                    Task in = new Deadline(input);
+                    tasks.add(in);
+                    System.out.println(linebrk + '\n' + "Added: " +
+                             in + '\n' + linebrk);
+                    System.out.println("Current task count: " + taskCount);
+                    break;
+                case "event":
+                    taskCount++;
+                    input = scn.nextLine().substring(1);
+                    Task in2 = new Event(input);
+                    tasks.add(in2);
+                    System.out.println(linebrk + '\n' + "Added: " +
+                            in2 + '\n' + linebrk);
+                    System.out.println("Current task count: " + taskCount);
+                    break;
                 default:
+                    taskCount++;
                     input += scn.nextLine();
                     tasks.add(new Task(input));
                     System.out.println(linebrk + '\n' + "Added: " +
                             input + '\n' + linebrk);
+                    System.out.println("Current task count: " + taskCount);
                     break;
             }
             input = scn.next();
