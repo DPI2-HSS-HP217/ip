@@ -12,6 +12,10 @@ public class Task {
         this.status = true;
     }
 
+    public void setTaskName(String newName) {
+        this.taskName = newName;
+    }
+
     public void resetDone() {
         this.status = false;
     }

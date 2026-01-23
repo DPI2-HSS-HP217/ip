@@ -2,7 +2,10 @@ import java.util.*;
 
 public class Nephilim {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NephilimException {
+        enum COMMAND {
+            list, delete, unmark, mark, todo, event, deadline
+        }
         String linebrk = "____________________________________________________________";
         System.out.println(linebrk);
         System.out.println("Greetings from Nephilim-451.");
@@ -15,79 +18,81 @@ public class Nephilim {
 
         //Read commands
         Scanner scn = new Scanner(System.in);
-        String input = scn.next();
+        StringTokenizer input = new StringTokenizer(scn.nextLine(), " ");
+        String command = input.nextToken();
 
-        while (!(input.equals("bye"))) {
-            switch (input) {
-                case "list":
-                    System.out.println(linebrk);
-                    System.out.println("Your tasks are as follows:");
-                    for (int i = 0; i < tasks.size(); i++) {
-                        System.out.println((i + 1) + ". " + tasks.get(i));
-                    }
-                    System.out.println(linebrk);
-                    break;
-                case "delete":
-                case "unmark":
-                case "mark":
-                    int arg = Integer.parseInt(scn.next());
-                    if (arg < 1 || arg > taskCount) {
-                        System.out.println("No such task exists.");
-                    } else {
-                        Task tasc = tasks.get(arg - 1);
-                        String outString = input.equals("mark") ? "Task successfully marked as done: "
-                                                                : input.equals("unmark")
-                                                                ? "Task successfully marked as incomplete: "
-                                                                : "Deleted task: ";
-                        if (input.equals("mark")) tasc.setDone();
-                        else if (input.equals("unmark")) tasc.resetDone();
-                        else {
-                            taskCount--;
-                            tasks.remove(arg - 1);
+        while (!(command.equals("bye"))) {
+            try {
+                switch (command) {
+                    case "list":
+                        System.out.println(linebrk);
+                        System.out.println("Your tasks are as follows:");
+                        for (int i = 0; i < tasks.size(); i++) {
+                            System.out.println((i + 1) + ". " + tasks.get(i));
                         }
-                        System.out.println(outString + '\n' + tasc);
-                        if (input.equals("delete")) System.out.println(taskCount + " tasks remain.");
-                    }
-                    System.out.println(linebrk);
-                    break;
-                case "todo":
-                    taskCount++;
-                    input = scn.nextLine().substring(1);
-                    tasks.add(new Todo(input));
-                    System.out.println(linebrk + '\n' + "Added: " +
-                            input + '\n' + linebrk);
-                    System.out.println("Current task count: " + taskCount);
-                    break;
-                case "deadline":
-                    taskCount++;
-                    input = scn.nextLine().substring(1);
-                    Task in = new Deadline(input);
-                    tasks.add(in);
-                    System.out.println(linebrk + '\n' + "Added: " +
-                             in + '\n' + linebrk);
-                    System.out.println("Current task count: " + taskCount);
-                    break;
-                case "event":
-                    taskCount++;
-                    input = scn.nextLine().substring(1);
-                    Task in2 = new Event(input);
-                    tasks.add(in2);
-                    System.out.println(linebrk + '\n' + "Added: " +
-                            in2 + '\n' + linebrk);
-                    System.out.println("Current task count: " + taskCount);
-                    break;
-                default:
-                    taskCount++;
-                    input += scn.nextLine();
-                    tasks.add(new Task(input));
-                    System.out.println(linebrk + '\n' + "Added: " +
-                            input + '\n' + linebrk);
-                    System.out.println("Current task count: " + taskCount);
-                    break;
+                        System.out.println(linebrk);
+                        break;
+                    case "delete":
+                    case "unmark":
+                    case "mark":
+                        if (!input.hasMoreTokens()) throw new NephilimInputException(command, "Please specify which task you wish to " + command);
+                        int arg = Integer.parseInt(input.nextToken());
+                        if (arg < 1 || arg > taskCount) {
+                            System.out.println("No such task exists.");
+                        } else {
+                            Task tasc = tasks.get(arg - 1);
+                            String outString = command.equals("mark") ? "Task successfully marked as done: "
+                                    : command.equals("unmark")
+                                    ? "Task successfully marked as incomplete: "
+                                    : "Deleted task: ";
+                            if (command.equals("mark")) tasc.setDone();
+                            else if (command.equals("unmark")) tasc.resetDone();
+                            else {
+                                taskCount--;
+                                tasks.remove(arg - 1);
+                            }
+                            System.out.println(outString + '\n' + tasc);
+                            if (command.equals("delete")) System.out.println(taskCount + " tasks remain.");
+                        }
+                        System.out.println(linebrk);
+                        break;
+                    case "todo":
+                        if (!input.hasMoreTokens()) throw new NephilimInputException(command, "Task description cannot be blank.");
+                        tasks.add(new Todo(input.nextToken("")));
+                        System.out.println(linebrk + '\n' + "Added: " +
+                                tasks.get(taskCount) + '\n' + linebrk);
+                        taskCount++;
+                        System.out.println("Current task count: " + taskCount);
+                        break;
+                    case "deadline":
+                        if (!input.hasMoreTokens()) throw new NephilimInputException(command, "Task description cannot be blank.");
+                        tasks.add(new Deadline(input.nextToken("")));
+                        System.out.println(linebrk + '\n' + "Added: " +
+                                tasks.get(taskCount) + '\n' + linebrk);
+                        taskCount++;
+                        System.out.println("Current task count: " + taskCount);
+                        break;
+                    case "event":
+                        if (!input.hasMoreTokens()) throw new NephilimInputException(command, "Task description cannot be blank.");
+                        tasks.add(new Event(input.nextToken("")));
+                        System.out.println(linebrk + '\n' + "Added: " +
+                                tasks.get(taskCount) + '\n' + linebrk);
+                        taskCount++;
+                        System.out.println("Current task count: " + taskCount);
+                        break;
+                    default:
+                        throw new NephilimInputException(command, "The command " +
+                                command + " does not exist");
+                }
+                input = new StringTokenizer(scn.nextLine(), " ");
+                command = input.nextToken();
+            } catch(NephilimException e) {
+                System.out.println(linebrk + '\n' + e.toString() + '\n' + linebrk);
+                input = new StringTokenizer(scn.nextLine(), " ");
+                command = input.nextToken();
             }
-            input = scn.next();
         }
-        input = "So concludes our conversation.";
-        System.out.println(linebrk + '\n' + input + '\n' + linebrk);
+        //Exit message
+        System.out.println(linebrk + '\n' + "So concludes our conversation." + '\n' + linebrk);
     }
 }
