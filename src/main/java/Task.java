@@ -1,15 +1,15 @@
 public class Task {
-    private boolean status;
+    private boolean isDone;
     private String taskName;
 
 
     public Task (String taskName) {
         this.taskName = taskName;
-        status = false;
+        isDone = false;
     }
 
     public void setDone() {
-        this.status = true;
+        this.isDone = true;
     }
 
     public void setTaskName(String newName) {
@@ -17,14 +17,14 @@ public class Task {
     }
 
     public void resetDone() {
-        this.status = false;
+        this.isDone = false;
     }
 
 
     @Override
     public String toString() {
-        String isDone = status ? "X" : " ";
-        String out = "[" + isDone + "] " + taskName;
+        String status = this.isDone ? "X" : " ";
+        String out = "[" + status + "] " + taskName;
         return out;
     }
 

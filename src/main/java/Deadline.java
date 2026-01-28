@@ -8,8 +8,8 @@ public class Deadline extends Task {
         super(taskName); //initializing with wrong name first to get past
         //"super must be first line in constructor" requirement.
         if (!taskName.contains("/by ")) {
-            throw new NephilimInputException("deadline " + taskName, "Deadline field (denoted after \"/by\") is " +
-                                             "either empty or missing the \"/by\" flag");
+            throw new NephilimInputException("deadline " + taskName, "Deadline field (denoted after \"/by\") is "
+                    + "either empty or missing the \"/by\" flag");
         } else if (taskName.indexOf("/by") == 1) {
             throw new NephilimInputException("deadline" + taskName, "Deadline task name cannot be empty.");
         }
