@@ -16,7 +16,7 @@ public class Task {
         this.taskName = newName;
     }
 
-    public void resetDone() {
+    public void setUnDone() {
         this.isDone = false;
     }
 

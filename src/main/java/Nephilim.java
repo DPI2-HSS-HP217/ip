@@ -2,15 +2,22 @@ import java.util.*;
 
 public class Nephilim {
 
+    private static void print(String out) {
+        String LINE_BREAK = "____________________________________________________________";
+        System.out.println(LINE_BREAK);
+        System.out.println(out);
+        System.out.println(LINE_BREAK);
+    }
+
+
     public static void main(String[] args) throws NephilimException {
         enum COMMAND {
             list, delete, unmark, mark, todo, event, deadline
         }
-        String lineBreak = "____________________________________________________________";
-        System.out.println(lineBreak);
-        System.out.println("Greetings from Nephilim-451.");
-        System.out.println("Please state the nature of your request.");
-        System.out.println(lineBreak);
+
+        //Greeting
+        Nephilim.print("Greetings from Nephilim-451.\nPlease state the nature of your request.");
+
 
         //Setup Variables
         ArrayList<Task> tasks = new ArrayList<>(100);
@@ -19,18 +26,23 @@ public class Nephilim {
         //Read commands
         Scanner scn = new Scanner(System.in);
         StringTokenizer input = new StringTokenizer(scn.nextLine(), " ");
+        StringBuilder outputMessage = new StringBuilder();
         String command = input.nextToken();
+
+        //Parse commands
 
         while (!(command.equals("bye"))) {
             try {
                 switch (command) {
                     case "list":
-                        System.out.println(lineBreak);
-                        System.out.println("Your tasks are as follows:");
+
+                        outputMessage.append("Your tasks are as follows:\n");
                         for (int i = 0; i < tasks.size(); i++) {
-                            System.out.println((i + 1) + ". " + tasks.get(i));
+                            outputMessage.append((i + 1) + ". " + tasks.get(i) + '\n');
                         }
-                        System.out.println(lineBreak);
+                        Nephilim.print(outputMessage.toString());
+                        outputMessage.delete(0, outputMessage.length()); //flush output
+
                         break;
                     case "delete":
                     case "unmark":
@@ -51,47 +63,51 @@ public class Nephilim {
                                 tasc.setDone();
                             }
                             else if (command.equals("unmark")) {
-                                tasc.resetDone();
+                                tasc.setUnDone();
                             }
                             else {
                                 taskCount--;
                                 tasks.remove(arg - 1);
                             }
-                            System.out.println(outString + '\n' + tasc);
+                            outputMessage.append(outString + '\n' + tasc);
                             if (command.equals("delete")) {
-                                System.out.println(taskCount + " tasks remain.");
+                                outputMessage.append('\n' + taskCount + " tasks remain.");
                             }
                         }
-                        System.out.println(lineBreak);
+                        Nephilim.print(outputMessage.toString());
+                        outputMessage.delete(0, outputMessage.length()); //flush output
                         break;
                     case "todo":
                         if (!input.hasMoreTokens()) {
                             throw new NephilimInputException(command, "Task description cannot be blank.");
                         }
                         tasks.add(new Todo(input.nextToken("")));
-                        System.out.println(lineBreak + '\n' + "Added: " +
-                                tasks.get(taskCount) + '\n' + lineBreak);
+                        outputMessage.append("Added: " + tasks.get(taskCount));
                         taskCount++;
-                        System.out.println("Current task count: " + taskCount);
+                        outputMessage.append('\n' + "Current task count: " + taskCount);
+                        Nephilim.print(outputMessage.toString());
+                        outputMessage.delete(0, outputMessage.length()); //flush output
                         break;
                     case "deadline":
                         if (!input.hasMoreTokens()) {
                             throw new NephilimInputException(command, "Task description cannot be blank.");
                         }
                         tasks.add(new Deadline(input.nextToken("")));
-                        System.out.println(lineBreak + '\n' + "Added: "
-                                + tasks.get(taskCount) + '\n' + lineBreak);
+                        outputMessage.append("Added: " + tasks.get(taskCount));
                         taskCount++;
-                        System.out.println("Current task count: " + taskCount);
+                        outputMessage.append('\n' + "Current task count: " + taskCount);
+                        Nephilim.print(outputMessage.toString());
+                        outputMessage.delete(0, outputMessage.length()); //flush output
                         break;
                     case "event":
                         if (!input.hasMoreTokens()) throw new NephilimInputException(command,
                                 "Task description cannot be blank.");
                         tasks.add(new Event(input.nextToken("")));
-                        System.out.println(lineBreak + '\n' + "Added: "
-                                + tasks.get(taskCount) + '\n' + lineBreak);
+                        outputMessage.append("Added: " + tasks.get(taskCount));
                         taskCount++;
-                        System.out.println("Current task count: " + taskCount);
+                        outputMessage.append('\n' + "Current task count: " + taskCount);
+                        Nephilim.print(outputMessage.toString());
+                        outputMessage.delete(0, outputMessage.length()); //flush output
                         break;
                     default:
                         throw new NephilimInputException(command, "The command "
@@ -100,12 +116,12 @@ public class Nephilim {
                 input = new StringTokenizer(scn.nextLine(), " ");
                 command = input.nextToken();
             } catch(NephilimException e) {
-                System.out.println(lineBreak + '\n' + e.toString() + '\n' + lineBreak);
+                Nephilim.print(e.toString());
                 input = new StringTokenizer(scn.nextLine(), " ");
                 command = input.nextToken();
             }
         }
         //Exit message
-        System.out.println(lineBreak + '\n' + "So concludes our conversation." + '\n' + lineBreak);
+        Nephilim.print("So concludes our conversation.");
     }
 }

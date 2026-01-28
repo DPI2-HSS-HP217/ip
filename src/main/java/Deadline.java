@@ -1,7 +1,7 @@
 import java.util.StringTokenizer;
 
 public class Deadline extends Task {
-    private String bydate;
+    private String byDate;
 
     //to clean up exception error handling by merging into a more concise form where possible
     public Deadline(String taskName) throws NephilimInputException {
@@ -14,12 +14,12 @@ public class Deadline extends Task {
             throw new NephilimInputException("deadline" + taskName, "Deadline task name cannot be empty.");
         }
         super.setTaskName(taskName.substring(0, taskName.indexOf("/by ")));
-        this.bydate = taskName.substring(taskName.indexOf("/by ") + 4);
+        this.byDate = taskName.substring(taskName.indexOf("/by ") + 4);
     }
 
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + "(by: " + bydate + ")";
+        return "[D]" + super.toString() + "(by: " + byDate + ")";
     }
 }
