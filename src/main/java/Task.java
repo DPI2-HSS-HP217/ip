@@ -2,23 +2,32 @@ public class Task {
     private boolean isDone;
     private String taskName;
 
-
     public Task (String taskName) {
         this.taskName = taskName;
         isDone = false;
+    }
+
+    public boolean getIsDone() {
+        return this.isDone;
     }
 
     public void setDone() {
         this.isDone = true;
     }
 
+    public void setUnDone() {
+        this.isDone = false;
+    }
+
     public void setTaskName(String newName) {
         this.taskName = newName;
     }
 
-    public void setUnDone() {
-        this.isDone = false;
+    public String encode() {
+        return taskName;
     }
+
+
 
 
     @Override
@@ -27,5 +36,6 @@ public class Task {
         String out = "[" + status + "] " + taskName;
         return out;
     }
+
 
 }
