@@ -1,5 +1,3 @@
-import java.util.StringTokenizer;
-
 public class Deadline extends Task {
     private String byDate;
 
@@ -21,5 +19,10 @@ public class Deadline extends Task {
     @Override
     public String toString() {
         return "[D]" + super.toString() + "(by: " + byDate + ")";
+    }
+
+    @Override
+    public String encode() {
+        return " D " + super.encode() + " /by " + byDate;
     }
 }

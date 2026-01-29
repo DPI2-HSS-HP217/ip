@@ -1,5 +1,3 @@
-import java.util.StringTokenizer;
-
 public class Event extends Task {
     private String fromDate;
     private String toDate;
@@ -21,12 +19,17 @@ public class Event extends Task {
         }
         super.setTaskName(taskName.substring(0, taskName.indexOf("/from")));
         this.fromDate = taskName.substring(taskName.indexOf("/from ") + 6,
-                taskName.indexOf("/to "));
-        this.toDate = taskName.substring(taskName.indexOf("/to ") + 3);
+                taskName.indexOf("/to ") - 1);
+        this.toDate = taskName.substring(taskName.indexOf("/to ") + 4);
     }
 
     @Override
     public String toString() {
         return "[E]" + super.toString() + "(from: " + fromDate + " to: " + toDate + ")";
+    }
+
+    @Override
+    public String encode() {
+        return " E " + super.encode() + " /from " + fromDate + " /to " + toDate;
     }
 }
