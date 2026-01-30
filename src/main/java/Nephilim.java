@@ -2,11 +2,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
-public class Nephilim {
+
+class Nephilim {
 
     /**
      * Formats and prints a string output message by enclosing it in two
@@ -14,7 +16,7 @@ public class Nephilim {
      * @param out The output string message.
      */
     private static void print(String out) {
-        String LINE_BREAK = "____________________________________________________________";
+        final String LINE_BREAK = "____________________________________________________________";
         System.out.println(LINE_BREAK);
         System.out.println(out);
         System.out.println(LINE_BREAK);
@@ -28,7 +30,7 @@ public class Nephilim {
     private static ArrayList<Task> readListFromData() {
         File directory = new File("./data");
         File data = new File("./data/listDataEncode.txt");
-        ArrayList<Task> tasksOut = new ArrayList<>();
+        ArrayList<Task> tasksOut = new ArrayList<>(); //List of tasks to return
         directory.mkdir();
         try {
             if (!data.createNewFile()) {
