@@ -57,7 +57,7 @@ class Nephilim {
             }
 
         } catch (FileNotFoundException e) {
-            Nephilim.print("File could not be found. This exception should not occur.");
+            Nephilim.print("File could not be found. This should not be so.");
             e.printStackTrace();
             //Note: This should not happen as this should only be thrown when FileReader
             // constructor is run - which in turn should only happen if
@@ -94,7 +94,6 @@ class Nephilim {
 
             for (int i = 0; i < tasks.size(); i++) {
                 txtOutputMessage.append(tasks.get(i).toString() + '\n');
-                System.out.println(txtOutputMessage.toString());
                 boolean isDone = tasks.get(i).getIsDone();
                 encodeOutputMessage.append(isDone + tasks.get(i).encode() + '\n');
             }
@@ -152,10 +151,10 @@ class Nephilim {
                             System.out.println("No such task exists.");
                         } else {
                             Task tasc = tasks.get(arg - 1);
-                            String outString = command.equals("mark") ? "Task successfully marked as done: "
+                            String outString = command.equals("mark") ? "Continue the onslaught. Give them no quarter. "
                                     : command.equals("unmark")
-                                    ? "Task successfully marked as incomplete: "
-                                    : "Deleted task: ";
+                                    ? "Completion cannot be escaped! But it can be postponed. "
+                                    : "The greater the task, the greater the glory. ";
                             if (command.equals("mark")) {
                                 tasc.setDone();
                             }
