@@ -1,5 +1,11 @@
-public class Deadline extends Task {
-    private String byDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
+class Deadline extends Task {
+    private LocalDateTime byDate;
+    public final DateTimeFormatter OUTPUT_DATE_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy HHmm");
+    public final DateTimeFormatter INPUT_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
 
     //to clean up exception error handling by merging into a more concise form where possible
     public Deadline(String taskName) throws NephilimInputException {
@@ -12,17 +18,22 @@ public class Deadline extends Task {
             throw new NephilimInputException("deadline" + taskName, "Deadline task name cannot be empty.");
         }
         super.setTaskName(taskName.substring(0, taskName.indexOf("/by ")));
-        this.byDate = taskName.substring(taskName.indexOf("/by ") + 4);
+        try {
+            this.byDate = LocalDateTime.parse(taskName.substring(taskName.indexOf("/by ") + 4), INPUT_DATE_FORMAT);
+        } catch (DateTimeParseException e) {
+            throw new NephilimInputException("event " + taskName, "Could not understand the date "
+                    + e.getParsedString() + ". Please ensure date is in YYYY-MM-DD TTTT format, with time in 24 Hour Time.");
+        }
     }
 
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + "(by: " + byDate + ")";
+        return "[D]" + super.toString() + "(by: " + byDate.format(OUTPUT_DATE_FORMAT) + ")";
     }
 
     @Override
     public String encode() {
-        return " D " + super.encode() + " /by " + byDate;
+        return " D " + super.encode() + "/by " + byDate.format(INPUT_DATE_FORMAT);
     }
 }

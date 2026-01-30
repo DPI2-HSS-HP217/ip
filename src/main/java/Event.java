@@ -1,6 +1,13 @@
-public class Event extends Task {
-    private String fromDate;
-    private String toDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
+
+class Event extends Task {
+    private LocalDateTime fromDate;
+    private LocalDateTime toDate;
+    public final DateTimeFormatter OUTPUT_DATE_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy HHmm");
+    public final DateTimeFormatter INPUT_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
 
     public Event(String taskName) throws NephilimInputException {
         super(taskName);
@@ -18,18 +25,26 @@ public class Event extends Task {
             throw new NephilimInputException("event" + taskName, "Event name cannot be empty.");
         }
         super.setTaskName(taskName.substring(0, taskName.indexOf("/from")));
-        this.fromDate = taskName.substring(taskName.indexOf("/from ") + 6,
-                taskName.indexOf("/to ") - 1);
-        this.toDate = taskName.substring(taskName.indexOf("/to ") + 4);
+        try {
+            this.fromDate = LocalDateTime.parse(taskName.substring(taskName.indexOf("/from ") + 6,
+                    taskName.indexOf("/to ") - 1), INPUT_DATE_FORMAT);
+            this.toDate = LocalDateTime.parse(taskName.substring(taskName.indexOf("/to ") + 4),
+                    INPUT_DATE_FORMAT);
+        } catch (DateTimeParseException e) {
+            throw new NephilimInputException("event " + taskName, "Could not understand the date "
+                    + e.getParsedString() + ". Please ensure date is in YYYY-MM-DD TTTT format, with time in 24 Hour Time.");
+        }
     }
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + "(from: " + fromDate + " to: " + toDate + ")";
+        return "[E]" + super.toString() + "(from: " + fromDate.format(OUTPUT_DATE_FORMAT)
+                + " to: " + toDate.format(OUTPUT_DATE_FORMAT) + ")";
     }
 
     @Override
     public String encode() {
-        return " E " + super.encode() + " /from " + fromDate + " /to " + toDate;
+        return " E " + super.encode() + "/from " + fromDate.format(INPUT_DATE_FORMAT)
+                + " /to " + toDate.format(INPUT_DATE_FORMAT);
     }
 }
