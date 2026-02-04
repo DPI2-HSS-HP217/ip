@@ -1,8 +1,8 @@
-public class NephilimInputException extends NephilimException {
+public class NephilimIOMissingArgsException extends NephilimException {
     private String message;
     private String input;
 
-    public NephilimInputException(String input, String message) {
+    public NephilimIOMissingArgsException(String input, String message) {
         super(message);
         this.input = input;
     }

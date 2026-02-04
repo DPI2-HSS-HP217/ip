@@ -9,6 +9,18 @@ class Event extends Task {
     public final DateTimeFormatter OUTPUT_DATE_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy HHmm");
     public final DateTimeFormatter INPUT_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
 
+
+    public Event(String taskName, String fromDate, String toDate) throws NephilimIOMissingArgsException {
+        super(taskName);
+        try {
+            this.fromDate = LocalDateTime.parse(fromDate, INPUT_DATE_FORMAT);
+            this.toDate = LocalDateTime.parse(toDate, INPUT_DATE_FORMAT);
+        } catch (DateTimeParseException e) {
+            throw new NephilimIOMissingArgsException("event " + taskName, "Could not understand the date "
+                    + e.getParsedString() + ". Please ensure date is in YYYY-MM-DD TTTT format, with time in 24 Hour Time.");
+        }
+    }
+    /*
     public Event(String taskName) throws NephilimInputException {
         super(taskName);
 
@@ -36,6 +48,8 @@ class Event extends Task {
         }
     }
 
+     */
+
     @Override
     public String toString() {
         return "[E]" + super.toString() + "(from: " + fromDate.format(OUTPUT_DATE_FORMAT)
@@ -44,7 +58,7 @@ class Event extends Task {
 
     @Override
     public String encode() {
-        return " E " + super.encode() + "/from " + fromDate.format(INPUT_DATE_FORMAT)
+        return " event " + super.encode() + " /from " + fromDate.format(INPUT_DATE_FORMAT)
                 + " /to " + toDate.format(INPUT_DATE_FORMAT);
     }
 }

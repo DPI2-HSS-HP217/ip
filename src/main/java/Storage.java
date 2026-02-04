@@ -1,0 +1,86 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Storage {
+    private static final File directory = new File("./data");
+    private static final File data = new File(directory + "/listDataEncode.txt");
+    private static final File txtData = new File(directory + "/listData.txt");
+    private static final Ui dummyUi = new Ui(); //Dummy UI to initialise parser with
+    /** Reads encoded data and translates the plaintext data into
+     * an ArrayList of Tasks, which it then returns.
+     *
+     * @return an ArrayList of tasks, read from data file.
+     */
+    static TaskList readListFromData() throws FileNotFoundException, IOException, NephilimException {
+        TaskList tasksOut = new TaskList(new ArrayList<>()); //List of tasks to return
+        directory.mkdir(); //Create directory if it does not exist.
+        data.createNewFile(); //Create file if it does not exist.
+        int taskCount = 0;
+        Scanner reader = new Scanner(data);
+        Parser parser = new Parser(tasksOut, dummyUi);
+
+        while (reader.hasNextLine()) {
+            String[] input = reader.nextLine().split(" ", 2);
+            taskCount++;
+            String[] args = new String[0];
+            try {
+                args = parser.parse(input[1]);
+            } catch (NephilimIOMissingArgsException e) {
+                throw new NephilimException("Could not read file. Generating empty task list.");
+            }
+            switch(args[0]) {
+                case "todo" :
+                    tasksOut.addTask(new Todo(args[1]));
+                    break;
+                case "deadline" :
+                    tasksOut.addTask(new Deadline(args[1], args[2]));
+                    break;
+                case "event" :
+                    tasksOut.addTask(new Event(args[1], args[2], args[3]));
+                    break;
+            }
+            if ("true".equals(input[0])) {
+                tasksOut.markTask(taskCount - 1);
+            }
+        }
+        return tasksOut;
+    }
+
+    /**
+     * Saves data of task list to file, both in a more human-readable format
+     * (listData.txt) and a more machine-readable format (listDataEncode.txt)
+     * Overrides any existing data when saving to file.
+     *
+     * todo: add handling for file corruption
+     *
+     * @param tasks The arraylist of tasks to save to memory.
+     */
+    static void saveListToData(TaskList tasks) throws IOException, NephilimException {
+        txtData.createNewFile();
+        data.createNewFile();
+
+        FileWriter txtWriter = new FileWriter(txtData);
+        FileWriter encodeWriter = new FileWriter(data);
+        StringBuilder txtOutputMessage = new StringBuilder();
+        StringBuilder encodeOutputMessage = new StringBuilder();
+
+        for (int i = 0; i < tasks.getSize(); i++) {
+            try {
+                txtOutputMessage.append(tasks.getTask(i).toString() + '\n');
+                boolean isDone = tasks.getTask(i).getIsDone();
+                encodeOutputMessage.append(isDone + tasks.getTask(i).encode() + '\n');
+            } catch (NephilimIOMissingArgsException e) {
+                throw new NephilimException("Unable to save list to file");
+            }
+        }
+        txtWriter.write(txtOutputMessage.toString());
+        encodeWriter.write(encodeOutputMessage.toString());
+        txtWriter.close();
+        encodeWriter.close();
+    }
+
+}

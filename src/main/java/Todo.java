@@ -9,6 +9,6 @@ class Todo extends Task {
 
     @Override
     public String encode() {
-        return " T " + super.encode();
+        return " todo " + super.encode();
     }
 }

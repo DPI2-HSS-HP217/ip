@@ -7,6 +7,17 @@ class Deadline extends Task {
     public final DateTimeFormatter OUTPUT_DATE_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy HHmm");
     public final DateTimeFormatter INPUT_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
 
+
+    public Deadline (String taskName, String byDate) throws NephilimIOMissingArgsException {
+        super(taskName);
+        try {
+            this.byDate = LocalDateTime.parse(byDate, INPUT_DATE_FORMAT);
+        } catch (DateTimeParseException e) {
+            throw new NephilimIOMissingArgsException("event " + taskName, "Could not understand the date "
+                    + e.getParsedString() + ". Please ensure date is in YYYY-MM-DD TTTT format, with time in 24 Hour Time.");
+        }
+    }
+    /*
     //to clean up exception error handling by merging into a more concise form where possible
     public Deadline(String taskName) throws NephilimInputException {
         super(taskName); //initializing with wrong name first to get past
@@ -25,6 +36,7 @@ class Deadline extends Task {
                     + e.getParsedString() + ". Please ensure date is in YYYY-MM-DD TTTT format, with time in 24 Hour Time.");
         }
     }
+    */
 
 
     @Override
@@ -34,6 +46,6 @@ class Deadline extends Task {
 
     @Override
     public String encode() {
-        return " D " + super.encode() + "/by " + byDate.format(INPUT_DATE_FORMAT);
+        return " deadline " + super.encode() + " /by " + byDate.format(INPUT_DATE_FORMAT);
     }
 }
