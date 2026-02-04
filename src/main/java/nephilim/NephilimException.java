@@ -1,3 +1,5 @@
+package nephilim;
+
 public class NephilimException extends Exception {
     private String message;
     //generic wrapper exception for now?

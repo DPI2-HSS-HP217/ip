@@ -1,3 +1,4 @@
+package nephilim;
 /**
  * Handles all interactions with user: formats responses, etc.
  * Also stores all responses to user.

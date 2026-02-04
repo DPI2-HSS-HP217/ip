@@ -1,4 +1,6 @@
-public class NephilimIOMissingArgsException extends NephilimException {
+package nephilim;
+
+class NephilimIOMissingArgsException extends NephilimException {
     private String message;
     private String input;
 
