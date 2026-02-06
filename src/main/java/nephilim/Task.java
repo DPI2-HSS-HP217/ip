@@ -29,9 +29,6 @@ class Task {
         return taskName;
     }
 
-
-
-
     @Override
     public String toString() {
         String status = this.isDone ? "X" : " ";
