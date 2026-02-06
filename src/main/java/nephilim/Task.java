@@ -9,6 +9,10 @@ class Task {
         isDone = false;
     }
 
+    public String getTaskName() {
+        return this.taskName;
+    }
+
     public boolean getIsDone() {
         return this.isDone;
     }
@@ -19,10 +23,6 @@ class Task {
 
     public void setUnDone() {
         this.isDone = false;
-    }
-
-    public void setTaskName(String newName) {
-        this.taskName = newName;
     }
 
     public String encode() {
