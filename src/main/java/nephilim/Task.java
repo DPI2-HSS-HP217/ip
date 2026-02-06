@@ -35,7 +35,7 @@ class Task {
     public void setUnDone() {
         this.isDone = false;
     }
-    
+
     /**
      * Returns the task as a string that can be more easily read by
      * the Parser object but not the user. Used for internal data operations.

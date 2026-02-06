@@ -15,31 +15,27 @@ class Parser {
 
     /* Array List of all available commands. To potentially transfer into
     * a separate class with HashMap for faster lookup in the future */
-    private ArrayList<String> commands = new ArrayList<>();
-    /* Array List of the flags with which to tokenise string input. 1:1 index
+    private final ArrayList<String> commands = new ArrayList<>();
+    /* Array List of the flags with which to tokenize string input. 1:1 index
     * matching with the commands ArrayList above*/
-    private ArrayList<ArrayList<String>> flags = new ArrayList<>();
+    private final ArrayList<ArrayList<String>> flags = new ArrayList<>();
     /* Array List of consumers that take in a String array of arguments and performs
     * certain operations based on the command (1:1 index matching with commands)  */
-    private ArrayList<Instruction> instructions = new ArrayList<>();
-    private TaskList tasks;
-    private Ui outUi;
+    private final ArrayList<Instruction> instructions = new ArrayList<>();
 
     /**
-     * Constructor that will setup all arraylists with default commands.
+     * Constructor that will set up all arraylists with default commands.
      * @param tasks TaskList from Nephilim
      * @param outUi Ui from Nephilim
      */
     public Parser(TaskList tasks, Ui outUi) {
-        this.tasks = tasks;
-        this.outUi = outUi;
         //Set up commands list
         commands.addAll(Arrays.asList("bye", "mark", "unmark", "list", "delete", "todo", "deadline",
                 "event", "find"));
         //Bye command
         flags.add(new ArrayList<>()); //No flags needed
         instructions.add((x) -> {
-            return false; //Booelean dictates to Nephilim whether it should cease running
+            return false; //Boolean dictates to Nephilim whether it should cease running
         });
         //Mark command
         flags.add(new ArrayList<>(Arrays.asList(" ")));
@@ -106,7 +102,7 @@ class Parser {
         flags.add(new ArrayList<>(Arrays.asList(" ")));
         instructions.add((x) -> {
             String output = tasks.listOut(x[1]);
-            if (output == "") {
+            if (output.isEmpty()) {
                 outUi.print("No task of that description can be found. Note this is case-sensitive.");
             } else {
                 outUi.print("The following tasks have been found:\n" + output);
