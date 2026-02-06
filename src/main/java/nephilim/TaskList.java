@@ -26,10 +26,11 @@ class TaskList {
         return this.tasks.size();
     }
 
-    /** Attempts to delete the task at the given index.
+    /**
+     * Attempts to delete the task at the given index.
      *
      * @param index Index of task to be deleted in 0-based index.
-     * @throws NephilimIOMissingArgsException If index of task to be deleted is OOB.
+     * @throws NephilimIOMissingArgsException If index of task to be deleted is out of bounds.
      */
     public void deleteTask(int index) throws NephilimIOMissingArgsException {
         try {
@@ -45,7 +46,7 @@ class TaskList {
      *  if task was already marked.
      *
      * @param index Index of task to be marked in 0-based index.
-     * @throws NephilimIOMissingArgsException If index of task to be marked is OOB.
+     * @throws NephilimIOMissingArgsException If index of task to be marked is out of bounds.
      */
     public void markTask(int index)  throws NephilimIOMissingArgsException {
         try {

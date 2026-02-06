@@ -6,13 +6,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
+/**
+ * Represents the main chatbot class. It comprises a UI, TaskList and Parser.
+ */
 class Nephilim {
     private Ui outUi;
     private TaskList tasks;
     private Parser parser;
     private Scanner scn;
 
+    /**
+     * Constructs the chatbot by setting up the UI, TaskList and Parser object,
+     * Reads the stored data to TaskList using the Storage class.
+     */
     public Nephilim() {
         this.outUi = new Ui();
         this.tasks = new TaskList(new ArrayList<>());
@@ -48,8 +54,6 @@ class Nephilim {
      * Causes chatbot to run, constantly accepting new commands until it receives
      * a signal from parser to stop running.
      *
-     * Will eventually transfer execution logic back to Nephilim for cleaner
-     * separation.
      */
     public void run() {
         outUi.print("Greetings from Nephilim-451.\nPlease state the nature of your request.");

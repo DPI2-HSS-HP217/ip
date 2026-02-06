@@ -1,6 +1,9 @@
 package nephilim;
 
-public class NephilimException extends Exception {
+/**
+ * Represents an exception related to the chatbot operation.
+ */
+class NephilimException extends Exception {
     private String message;
     //generic wrapper exception for now?
     public NephilimException(String message) {

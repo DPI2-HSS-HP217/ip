@@ -1,5 +1,8 @@
 package nephilim;
 
+/**
+ * Represents an exception related to missing arguments in chatbot input.
+ */
 class NephilimIOMissingArgsException extends NephilimException {
     private String message;
     private String input;

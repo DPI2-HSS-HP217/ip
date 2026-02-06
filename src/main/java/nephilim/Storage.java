@@ -7,12 +7,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Represents the bridge between hard drive and the application. Allows for
+ * saving and reading data from hard drive.
+ */
 class Storage {
     private static final File directory = new File("./data");
     private static final File data = new File(directory + "/listDataEncode.txt");
     private static final File txtData = new File(directory + "/listData.txt");
     private static final Ui dummyUi = new Ui(); //Dummy UI to initialise parser with
-    /** Reads encoded data and translates the plaintext data into
+
+    /**
+     * Reads encoded data and translates the plaintext data into
      * an ArrayList of Tasks, which it then returns.
      *
      * @return an ArrayList of tasks, read from data file.

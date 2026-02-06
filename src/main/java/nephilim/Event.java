@@ -3,7 +3,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-
+/**
+ * Represents an event - a task that starts on a given timing and ends on a given timing
+ * A Deadline object corresponds to a task represented by a task name, a date and time it starts on, and
+ * a date and time it ends on.
+ */
 class Event extends Task {
     private LocalDateTime fromDate;
     private LocalDateTime toDate;
@@ -11,6 +15,14 @@ class Event extends Task {
     public final DateTimeFormatter INPUT_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
 
 
+    /**
+     * Constructs an Event with three strings.
+     *
+     * @param taskName String denoting name of the event task
+     * @param fromDate String denoting when the event task begins in YYYY-MM-DD TTTT format
+     * @param toDate  String denoting when the event task ends in YYYY-MM-DD TTTT format
+     * @throws NephilimIOMissingArgsException If the string for byDate OR toDate is not formatted correctly.
+     */
     public Event(String taskName, String fromDate, String toDate) throws NephilimIOMissingArgsException {
         super(taskName);
         try {
@@ -21,35 +33,6 @@ class Event extends Task {
                     + e.getParsedString() + ". Please ensure date is in YYYY-MM-DD TTTT format, with time in 24 Hour Time.");
         }
     }
-    /*
-    public Event(String taskName) throws NephilimInputException {
-        super(taskName);
-
-        //double condition because from field being empty and from tag missing
-        //require separate handling.
-        if (!taskName.contains("/from ")
-                || taskName.substring(taskName.indexOf("/from ")).length() <= 6) {
-            throw new NephilimInputException("event " + taskName, "From field (denoted by \"/from\" flag) is either"
-                    + " empty or the \"/from\" flag is missing.");
-        } else if (!taskName.contains("/to ")) {
-            throw new NephilimInputException("event " + taskName, "To field (denoted after \"/by\") is either"
-                    + " empty or the \"/to\" flag is missing.");
-        } else if (taskName.indexOf("/from") == 1) {
-            throw new NephilimInputException("event" + taskName, "Event name cannot be empty.");
-        }
-        super.setTaskName(taskName.substring(0, taskName.indexOf("/from")));
-        try {
-            this.fromDate = LocalDateTime.parse(taskName.substring(taskName.indexOf("/from ") + 6,
-                    taskName.indexOf("/to ") - 1), INPUT_DATE_FORMAT);
-            this.toDate = LocalDateTime.parse(taskName.substring(taskName.indexOf("/to ") + 4),
-                    INPUT_DATE_FORMAT);
-        } catch (DateTimeParseException e) {
-            throw new NephilimInputException("event " + taskName, "Could not understand the date "
-                    + e.getParsedString() + ". Please ensure date is in YYYY-MM-DD TTTT format, with time in 24 Hour Time.");
-        }
-    }
-
-     */
 
     @Override
     public String toString() {

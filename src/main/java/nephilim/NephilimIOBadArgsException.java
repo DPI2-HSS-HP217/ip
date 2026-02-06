@@ -1,6 +1,9 @@
 package nephilim;
 
-public class NephilimIOBadArgsException extends NephilimException {
+/**
+ * Represents an exception related to bad arguments in chatbot input.  Unused.
+ */
+class NephilimIOBadArgsException extends NephilimException {
     private String message;
     private String input;
 
