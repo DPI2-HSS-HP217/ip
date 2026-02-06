@@ -71,8 +71,7 @@ class Parser {
             Task task = tasks.getTask(Integer.parseInt(x[1]) - 1);
             tasks.deleteTask(Integer.parseInt(x[1]) - 1);
             Storage.saveListToData(tasks);
-            outUi.print("This task is no longer: \n"
-                    + task
+            outUi.print("This task is no longer: \n" + task
                     + '\n' + tasks.getSize() + " tasks remain.");
             return true;
         });

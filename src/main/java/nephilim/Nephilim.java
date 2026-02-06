@@ -13,7 +13,7 @@ class Nephilim {
     private Ui outUi;
     private TaskList tasks;
     private Parser parser;
-    private Scanner scn;
+    private Scanner scanner;
 
     /**
      * Constructs the chatbot by setting up the UI, TaskList and Parser object,
@@ -23,7 +23,7 @@ class Nephilim {
         this.outUi = new Ui();
         this.tasks = new TaskList(new ArrayList<>());
 
-        this.scn = new Scanner(System.in);
+        this.scanner = new Scanner(System.in);
         try {
             this.tasks = Storage.readListFromData();
         } catch (FileNotFoundException e) {
@@ -43,7 +43,7 @@ class Nephilim {
      */
     public boolean receiveInput() {
         try {
-            return parser.parseAndRun(scn.nextLine());
+            return parser.parseAndRun(scanner.nextLine());
         } catch (NephilimException | IOException e) {
             outUi.printException(e.toString());
             return true;
@@ -58,9 +58,9 @@ class Nephilim {
     public void run() {
         outUi.print("Greetings from Nephilim-451.\nPlease state the nature of your request.");
         while (receiveInput()) {
-            int i = 0; //Dummy operation to not have empty while block.
+            
         }
-        scn.close();
+        scanner.close();
         outUi.print("So concludes our conversation.");
     }
 

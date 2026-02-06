@@ -5,6 +5,7 @@ package nephilim;
  */
 
 class Ui {
+
     private static final String LINE_BREAK = "____________________________________________________________";
 
     /**
@@ -35,7 +36,5 @@ class Ui {
     public void printException(String msg) {
         print("Exception: " + msg);
     }
-
-
 
 }
