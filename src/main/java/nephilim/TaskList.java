@@ -95,4 +95,23 @@ class TaskList {
         return outputMessage.toString();
     }
 
+    /**
+     * Lists out all the tasks that contain the given substring in their task name
+     * with a line break between each one.
+     * @param filter The substring to look for.
+     * @return A string representing all tasks with task name containing the substring.
+     */
+    public String listOut(String filter) throws NephilimIOMissingArgsException {
+        StringBuilder outputMessage = new StringBuilder();
+        int taskCount = 0;
+        for (int i = 0; i < tasks.size(); i++) {
+            if (tasks.get(i).getTaskName().contains(filter)) {
+                taskCount++;
+                outputMessage.append(taskCount + ". " + this.getTask(i));
+                outputMessage.append('\n');
+            }
+        }
+        return outputMessage.toString();
+    }
+
 }

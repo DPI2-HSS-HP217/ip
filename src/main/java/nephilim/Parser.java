@@ -35,7 +35,7 @@ class Parser {
         this.outUi = outUi;
         //Set up commands list
         commands.addAll(Arrays.asList("bye", "mark", "unmark", "list", "delete", "todo", "deadline",
-                "event"));
+                "event", "find"));
         //Bye command
         flags.add(new ArrayList<>()); //No flags needed
         instructions.add((x) -> {
@@ -100,6 +100,17 @@ class Parser {
             tasks.addTask(task);
             Storage.saveListToData(tasks);
             outUi.print("This task has been added: \n" + task);
+            return true;
+        });
+        //find command
+        flags.add(new ArrayList<>(Arrays.asList(" ")));
+        instructions.add((x) -> {
+            String output = tasks.listOut(x[1]);
+            if (output == "") {
+                outUi.print("No task of that description can be found. Note this is case-sensitive.");
+            } else {
+                outUi.print("The following tasks have been found:\n" + output);
+            }
             return true;
         });
     }
