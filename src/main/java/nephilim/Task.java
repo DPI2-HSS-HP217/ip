@@ -35,15 +35,13 @@ class Task {
     public void setUnDone() {
         this.isDone = false;
     }
-
-<<<<<<< HEAD
+    
     /**
      * Returns the task as a string that can be more easily read by
      * the Parser object but not the user. Used for internal data operations.
      * @return Encoded string representing Task.
      */
-=======
->>>>>>> branch-Level-9
+
     public String encode() {
         return taskName;
     }
