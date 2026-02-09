@@ -20,21 +20,25 @@ class Storage {
     /**
      * Reads encoded data and translates the plaintext data into
      * an ArrayList of Tasks, which it then returns.
+     * Will find a workaround to not require sending a copy of commands and flags.
+     *
+     * @param commands ArrayList representing list of valid commands.
+     * @param flags ArrayList representing list of flags related to valid commands.
      *
      * @return an ArrayList of tasks, read from data file.
      */
-    static TaskList readListFromData() throws FileNotFoundException, IOException, NephilimException {
+    protected static TaskList readListFromData(ArrayList<String> commands, ArrayList<ArrayList<String>>flags) throws FileNotFoundException, IOException, NephilimException {
         TaskList tasksOut = new TaskList(new ArrayList<>()); //List of tasks to return
         directory.mkdir(); //Create directory if it does not exist.
         data.createNewFile(); //Create file if it does not exist.
         int taskCount = 0;
         Scanner reader = new Scanner(data);
-        Parser parser = new Parser(tasksOut, dummyUi);
+        Parser parser = new Parser(commands, flags);
 
         while (reader.hasNextLine()) {
             String[] input = reader.nextLine().split(" ", 2);
             taskCount++;
-            String[] args = new String[0];
+            String[] args;
             try {
                 args = parser.parse(input[1]);
             } catch (NephilimIOMissingArgsException e) {
@@ -67,7 +71,7 @@ class Storage {
      *
      * @param tasks The arraylist of tasks to save to memory.
      */
-    static void saveListToData(TaskList tasks) throws IOException, NephilimException {
+    protected static void saveListToData(TaskList tasks) throws IOException, NephilimException {
         txtData.createNewFile();
         data.createNewFile();
 

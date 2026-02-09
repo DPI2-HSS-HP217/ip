@@ -18,3 +18,9 @@ text-ui-test/EXPECTED-UNIX.TXT
 
 #annotations
 src/main/java/todo.txt
+
+#backup Files
+backup/*
+
+#WiP Files
+src/main/java/nephilim/CommandDictionary.java

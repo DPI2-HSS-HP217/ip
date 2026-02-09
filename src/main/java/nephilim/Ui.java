@@ -6,16 +6,14 @@ package nephilim;
 
 class Ui {
 
-    private static final String LINE_BREAK = "____________________________________________________________";
+    private static final String LINE_BREAK = "_________________________________________________________";
 
     /**
      * Formats a given String by placing it in between two horizontal lines.
      * @param out String to be printed to user.
      */
-    public void print(String out) {
-        System.out.println(LINE_BREAK);
-        System.out.println(out);
-        System.out.println(LINE_BREAK);
+    public String print(String out) {
+        return LINE_BREAK + '\n' + out + '\n' + LINE_BREAK;
     }
 
     /**
@@ -24,8 +22,8 @@ class Ui {
      * @param msg Exception message to be printed.
      * @param details Further details about exception
      */
-    public void printException(String msg, String details) {
-        print("Exception: " + msg + "\nExtra details: " + details);
+    public String printException(String msg, String details) {
+        return print("Exception: " + msg + "\nExtra details: " + details);
     }
 
     /**
@@ -33,8 +31,8 @@ class Ui {
      *  status message. Overloaded version of above, if details do not exist.
      * @param msg Exception message to be printed.
      */
-    public void printException(String msg) {
-        print("Exception: " + msg);
+    public String printException(String msg) {
+        return print("Exception: " + msg);
     }
 
 }
