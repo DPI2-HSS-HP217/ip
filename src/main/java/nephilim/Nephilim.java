@@ -3,6 +3,7 @@ package nephilim;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -34,7 +35,7 @@ class Nephilim {
 
         //Set up commands, flags and instructions list.
         commands.addAll(Arrays.asList("bye", "mark", "unmark", "list", "delete", "todo", "deadline",
-                "event", "find"));
+                "event", "find", "schedule"));
 
         //Bye command
         flags.add(new ArrayList<>()); //No flags needed
@@ -106,6 +107,16 @@ class Nephilim {
         flags.add(new ArrayList<>(Arrays.asList(" ")));
         instructions.add((x) -> {
             String output = tasks.listOut(x[1]);
+            if (output.isEmpty()) {
+                return outUi.print("No task of that description can be found. Note this is case-sensitive.");
+            } else {
+                return outUi.print("The following tasks have been found:\n" + output);
+            }
+        });
+        //schedule command
+        flags.add(new ArrayList<>(Arrays.asList(" ")));
+        instructions.add((x) -> {
+            String output = tasks.listOut(DateTimeParser.parseTime(x[1]));
             if (output.isEmpty()) {
                 return outUi.print("No task of that description can be found. Note this is case-sensitive.");
             } else {

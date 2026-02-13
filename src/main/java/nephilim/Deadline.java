@@ -1,7 +1,6 @@
 package nephilim;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 /**
@@ -10,8 +9,6 @@ import java.time.format.DateTimeParseException;
  */
 class Deadline extends Task {
     private LocalDateTime byDate;
-    private final DateTimeFormatter OUTPUT_DATE_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy HHmm");
-    private final DateTimeFormatter INPUT_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
 
     /**
      * Constructs a Deadline with two strings.
@@ -23,20 +20,32 @@ class Deadline extends Task {
     public Deadline (String taskName, String byDate) throws NephilimIOMissingArgsException {
         super(taskName);
         try {
-            this.byDate = LocalDateTime.parse(byDate, INPUT_DATE_FORMAT);
-        } catch (DateTimeParseException e) {
-            throw new NephilimIOMissingArgsException("event " + taskName, "Could not understand the date "
-                    + e.getParsedString() + ". Please ensure date is in YYYY-MM-DD TTTT format, with time in 24 Hour Time.");
+            this.byDate = DateTimeParser.parseTime(byDate);
+        } catch (NephilimIOMissingArgsException e) {
+            throw new NephilimIOMissingArgsException("deadline " + taskName, e.getMessage());
         }
     }
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + byDate.format(OUTPUT_DATE_FORMAT) + ")";
+        return "[D]" + super.toString() + " (by: " + DateTimeParser.toOutputString(byDate) + ")";
     }
 
     @Override
     public String encode() {
-        return " deadline " + super.encode() + " /by " + byDate.format(INPUT_DATE_FORMAT);
+        return " deadline " + super.encode() + " /by " +  DateTimeParser.toInternalString(byDate);
     }
+
+    /**
+     *
+     * @param date The date to check if the Task is on the schedule for.
+     * @return If the deadline task has not ended by the given date.
+     */
+    @Override
+    public boolean isOnDate(LocalDateTime date) {
+        return this.byDate.isAfter(date);
+    }
+
 }
+
+
