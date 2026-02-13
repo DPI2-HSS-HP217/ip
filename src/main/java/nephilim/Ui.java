@@ -6,7 +6,7 @@ package nephilim;
 
 class Ui {
 
-    private static final String LINE_BREAK = "_________________________________________________________";
+    private static final String LINE_BREAK = "________________________________________________________";
 
     /**
      * Formats a given String by placing it in between two horizontal lines.

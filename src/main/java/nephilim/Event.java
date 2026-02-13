@@ -25,6 +25,7 @@ class Event extends Task {
      */
     public Event(String taskName, String fromDate, String toDate) throws NephilimIOMissingArgsException {
         super(taskName);
+        assert (!taskName.isEmpty());
         try {
             this.fromDate = LocalDateTime.parse(fromDate, INPUT_DATE_FORMAT);
             this.toDate = LocalDateTime.parse(toDate, INPUT_DATE_FORMAT);

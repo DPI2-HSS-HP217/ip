@@ -34,6 +34,8 @@ class Storage {
         int taskCount = 0;
         Scanner reader = new Scanner(data);
         Parser parser = new Parser(commands, flags);
+        assert(!commands.isEmpty());
+        assert(!flags.isEmpty());
 
         while (reader.hasNextLine()) {
             String[] input = reader.nextLine().split(" ", 2);
