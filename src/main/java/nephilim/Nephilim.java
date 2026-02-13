@@ -25,21 +25,17 @@ class Nephilim {
      * certain operations based on the command (1:1 index matching with commands)  */
     private final ArrayList<Instruction> instructions = new ArrayList<>();
 
+    private void initCommands() {
 
-
-    /**
-     * Constructs the chatbot by setting up the UI, TaskList and Parser object,
-     * Reads the stored data to TaskList using the Storage class.
-     */
-    public Nephilim() throws FileNotFoundException, IOException, NephilimException{
-        this.outUi = new Ui();
-        this.tasks = new TaskList(new ArrayList<>());
-
-
+        //Clear existing commands, flags and instructions lists
+        this.commands.clear();
+        this.flags.clear();
+        this.instructions.clear();
 
         //Set up commands, flags and instructions list.
         commands.addAll(Arrays.asList("bye", "mark", "unmark", "list", "delete", "todo", "deadline",
                 "event", "find"));
+
         //Bye command
         flags.add(new ArrayList<>()); //No flags needed
         instructions.add((x) -> {
@@ -49,7 +45,10 @@ class Nephilim {
         //Mark command
         flags.add(new ArrayList<>(Arrays.asList(" ")));
         instructions.add((x) -> {
-            tasks.markTask(Integer.parseInt(x[1]) - 1);
+            int listIndex = Integer.parseInt(x[1]) - 1; //Due to printed list being 1 indexed, and java arraylists
+                                                        //being 0 indexed, need to adjust argument by -1. This
+                                                        //will apply to all future instructions.
+            tasks.markTask(listIndex);
             Storage.saveListToData(tasks);
             return outUi.print("This task has been marked as done: \n"
                     + tasks.getTask(Integer.parseInt(x[1]) - 1));
@@ -58,10 +57,11 @@ class Nephilim {
         //Unmark command
         flags.add(new ArrayList<>(Arrays.asList(" ")));
         instructions.add((x) -> {
-            tasks.unmarkTask(Integer.parseInt(x[1]) - 1);
+            int listIndex = Integer.parseInt(x[1]) - 1;
+            tasks.unmarkTask(listIndex);
             Storage.saveListToData(tasks);
             return outUi.print("This task is no longer considered done: \n"
-                    + tasks.getTask(Integer.parseInt(x[1]) - 1));
+                    + tasks.getTask(listIndex));
         });
         //List command
         flags.add(new ArrayList<>());
@@ -71,8 +71,9 @@ class Nephilim {
         //Delete command
         flags.add(new ArrayList<>(Arrays.asList(" ")));
         instructions.add((x) -> {
-            Task task = tasks.getTask(Integer.parseInt(x[1]) - 1);
-            tasks.deleteTask(Integer.parseInt(x[1]) - 1);
+            int listIndex = Integer.parseInt(x[1]) - 1;
+            Task task = tasks.getTask(listIndex);
+            tasks.deleteTask(listIndex);
             Storage.saveListToData(tasks);
             return outUi.print("This task is no longer: \n" + task
                     + '\n' + tasks.getSize() + " tasks remain.");
@@ -111,6 +112,22 @@ class Nephilim {
                 return outUi.print("The following tasks have been found:\n" + output);
             }
         });
+        /* This causes the method to be long, true, but currently unable to find a way
+        to easily add all these instructions into the arraylist without being
+        wrapped by a function (constructor or otherwise) */
+
+    }
+
+
+    /**
+     * Constructs the chatbot by setting up the UI, TaskList and Parser object,
+     * Reads the stored data to TaskList using the Storage class.
+     */
+    public Nephilim() throws FileNotFoundException, IOException, NephilimException{
+        this.outUi = new Ui();
+        this.tasks = new TaskList(new ArrayList<>());
+
+        initCommands();
 
         this.tasks = Storage.readListFromData(commands, flags);
         this.parser = new Parser(commands, flags);
@@ -154,6 +171,8 @@ class Nephilim {
      * @throws IOException Certain instructions may throw this error due to writing/reading from file.
      */
     private String execute(String[] tokens) throws NephilimException, IOException {
-        return instructions.get(commands.indexOf(tokens[0])).run(tokens);
+        assert(commands.contains(tokens[0]));
+        Instruction instruction = instructions.get(commands.indexOf(tokens[0]));
+        return instruction.run(tokens);
     }
 }

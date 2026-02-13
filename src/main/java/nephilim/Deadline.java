@@ -32,7 +32,7 @@ class Deadline extends Task {
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + "(by: " + byDate.format(OUTPUT_DATE_FORMAT) + ")";
+        return "[D]" + super.toString() + " (by: " + byDate.format(OUTPUT_DATE_FORMAT) + ")";
     }
 
     @Override

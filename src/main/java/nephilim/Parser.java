@@ -40,22 +40,23 @@ class Parser {
         int searchResult = commands.indexOf(initial[0]);
         if (searchResult == -1) {
             throw new NephilimIOMissingArgsException(initial[0], "Command not recognised");
-        } else {
-            ArrayList<String> flagSet = flags.get(searchResult);
-            ArrayList<String> output = new ArrayList<>();
-            String[] evalString = {"", input}; //Setup for the loop ahead
-            for (int i = 0; i < flagSet.size(); i++) {
-                evalString = evalString[1].split(flagSet.get(i), 2);  //split remaining string with relevant flag
-                if (evalString.length == 1) {
-                    throw new NephilimIOMissingArgsException(input,
-                            "A flag is missing or a field is empty. Possible missing flag: " + flagSet.get(i));
-                }
-                output.add(evalString[0]); //then add the first token to output
-            }
-            output.add(evalString[1]);
-            //Lookup relevant instruction and pass the arguments array to it. Then return the output
-            return output.toArray(evalString);
         }
+        ArrayList<String> flagSet = flags.get(searchResult);
+        ArrayList<String> output = new ArrayList<>();
+        String[] evalString = {"", input}; //Setup for the parsing loop ahead, which operates on element in index 1
+
+        for (int i = 0; i < flagSet.size(); i++) {
+            evalString = evalString[1].split(flagSet.get(i), 2);
+            if (evalString.length == 1) { //Length of 1 indicates that string could not be split according to flag: means flag is missing.
+                throw new NephilimIOMissingArgsException(input,
+                        "A flag is missing or a field is empty. Possible missing flag: " + flagSet.get(i));
+            }
+            output.add(evalString[0]);
+        }
+        output.add(evalString[1]);
+
+        return output.toArray(evalString);
+
     }
 
 
