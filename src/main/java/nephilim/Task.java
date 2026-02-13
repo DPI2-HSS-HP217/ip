@@ -1,5 +1,7 @@
 package nephilim;
 
+import java.time.LocalDateTime;
+
 /**
  * Represents a task with a name and a boolean denoting whether the task
  * is considered complete or not.
@@ -34,6 +36,15 @@ class Task {
      */
     public void setUnDone() {
         this.isDone = false;
+    }
+
+    /**
+     * @param date The date to check if the Task is on the schedule for.
+     * @return Always true (we will assume that if a task has no "date", it will
+     *         always be part of a given date's schedule).
+     */
+    public boolean isOnDate(LocalDateTime date) {
+        return true;
     }
 
     /**

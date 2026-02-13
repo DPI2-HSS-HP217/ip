@@ -11,9 +11,6 @@ import java.time.format.DateTimeParseException;
 class Event extends Task {
     private LocalDateTime fromDate;
     private LocalDateTime toDate;
-    private final DateTimeFormatter OUTPUT_DATE_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy HHmm");
-    private final DateTimeFormatter INPUT_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
-
 
     /**
      * Constructs an Event with three strings.
@@ -27,23 +24,35 @@ class Event extends Task {
         super(taskName);
         assert (!taskName.isEmpty());
         try {
-            this.fromDate = LocalDateTime.parse(fromDate, INPUT_DATE_FORMAT);
-            this.toDate = LocalDateTime.parse(toDate, INPUT_DATE_FORMAT);
-        } catch (DateTimeParseException e) {
-            throw new NephilimIOMissingArgsException("event " + taskName, "Could not understand the date "
-                    + e.getParsedString() + ". Please ensure date is in YYYY-MM-DD TTTT format, with time in 24 Hour Time.");
+            this.fromDate = DateTimeParser.parseTime(fromDate);
+            this.toDate = DateTimeParser.parseTime(toDate);
+        } catch (NephilimIOMissingArgsException e) {
+            throw new NephilimIOMissingArgsException("event " + taskName, e.getMessage());
         }
     }
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + fromDate.format(OUTPUT_DATE_FORMAT)
-                + " to: " + toDate.format(OUTPUT_DATE_FORMAT) + ")";
+        return "[E]" + super.toString() + " (from: " +  DateTimeParser.toOutputString(fromDate)
+                + " to: " +  DateTimeParser.toOutputString(toDate) + ")";
     }
 
     @Override
     public String encode() {
-        return " event " + super.encode() + " /from " + fromDate.format(INPUT_DATE_FORMAT)
-                + " /to " + toDate.format(INPUT_DATE_FORMAT);
+        return " event " + super.encode() + " /from " +  DateTimeParser.toInternalString(fromDate)
+                + " /to " +  DateTimeParser.toOutputString(toDate);
     }
+
+    /**
+     *
+     * @param date The date to check if the Task is on the schedule for.
+     * @return If the event has started on the given date.
+     */
+    @Override
+    public boolean isOnDate(LocalDateTime date) {
+        boolean hasStarted = !(this.fromDate.isAfter(date));
+        boolean hasNotEnded = this.toDate.isAfter(date);
+        return (hasStarted && hasNotEnded);
+    }
+
 }

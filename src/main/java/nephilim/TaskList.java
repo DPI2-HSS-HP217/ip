@@ -1,4 +1,5 @@
 package nephilim;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 /**
@@ -114,4 +115,22 @@ class TaskList {
         return outputMessage.toString();
     }
 
+    /**
+     * Lists out all the tasks that contain the given substring in their task name
+     * with a line break between each one.
+     * @param filter The date on which to check if the task falls on
+     * @return A string representing all tasks that fall on the given date.
+     */
+    public String listOut(LocalDateTime filter) throws NephilimIOMissingArgsException {
+        StringBuilder outputMessage = new StringBuilder();
+        int taskCount = 0;
+        for (int i = 0; i < tasks.size(); i++) {
+            if (tasks.get(i).isOnDate(filter)) {
+                taskCount++;
+                outputMessage.append(taskCount + ". " + this.getTask(i));
+                outputMessage.append('\n');
+            }
+        }
+        return outputMessage.toString();
+    }
 }
