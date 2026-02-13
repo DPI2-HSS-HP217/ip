@@ -15,8 +15,7 @@ class Storage {
     private static final File directory = new File("./data");
     private static final File data = new File(directory + "/listDataEncode.txt");
     private static final File txtData = new File(directory + "/listData.txt");
-    private static final Ui dummyUi = new Ui(); //Dummy UI to initialise parser with
-
+    
     /**
      * Reads encoded data and translates the plaintext data into
      * an ArrayList of Tasks, which it then returns.
