@@ -1,7 +1,5 @@
 # Nephilim User Guide
 
-# NEPHILIM
-
 Nephilim, in theory, is just a simple Java-based task manager. However, like its mythological namesake, Nephilim is more like a mistake made by someone who played around with things **they shouldn't have**.
 
 - [Getting Started](https://dpi2-hss-hp217.github.io/ip/#getting-started)
