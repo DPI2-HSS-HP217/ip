@@ -24,3 +24,6 @@ backup/*
 
 #WiP Files
 src/main/java/nephilim/CommandDictionary.java
+
+#data files
+data/*

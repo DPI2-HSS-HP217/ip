@@ -51,7 +51,7 @@ class Nephilim {
                                                         //will apply to all future instructions.
             tasks.markTask(listIndex);
             Storage.saveListToData(tasks);
-            return outUi.print("This task has been marked as done: \n"
+            return outUi.print("The following task is at peace. For now. \n"
                     + tasks.getTask(Integer.parseInt(x[1]) - 1));
 
         });
