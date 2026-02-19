@@ -40,7 +40,7 @@ class Event extends Task {
     @Override
     public String encode() {
         return " event " + super.encode() + " /from " +  DateTimeParser.toInternalString(fromDate)
-                + " /to " +  DateTimeParser.toOutputString(toDate);
+                + " /to " +  DateTimeParser.toInternalString(toDate);
     }
 
     /**

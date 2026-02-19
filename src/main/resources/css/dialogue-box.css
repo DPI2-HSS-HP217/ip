@@ -2,9 +2,9 @@
 .label {
     -fx-background-color: linear-gradient(to bottom right, #000000, #8a7d5b);
     -fx-border-color: #6a5100;
-    -fx-background-radius: 1em 1em 1em 0;
+    -fx-background-radius: 1em 1em 0 1em;
     -fx-border-width: 2px;
-    -fx-border-radius: 1em 1em 1em 0;
+    -fx-border-radius: 1em 1em 0 1em;
     -fx-text-fill: #ffd500;
 }
 
@@ -12,8 +12,8 @@
     -fx-background-color: linear-gradient(to bottom right, #000000, #4d3b57);
     -fx-border-color: #4c006a;
     -fx-border-width: 2px;
-    -fx-background-radius: 1em 1em 0 1em;
-    -fx-border-radius: 1em 1em 0 1em;
+    -fx-background-radius: 1em 1em 1em 0;
+    -fx-border-radius: 1em 1em 1em 0;
     -fx-text-fill: #9900ff;
 }
 

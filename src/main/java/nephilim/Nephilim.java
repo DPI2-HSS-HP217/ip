@@ -51,7 +51,7 @@ class Nephilim {
                                                         //will apply to all future instructions.
             tasks.markTask(listIndex);
             Storage.saveListToData(tasks);
-            return outUi.print("The following task is at peace. For now. \n"
+            return outUi.print("A temporary respite, but a respite nonetheless. It is marked. \n"
                     + tasks.getTask(Integer.parseInt(x[1]) - 1));
 
         });
@@ -61,13 +61,13 @@ class Nephilim {
             int listIndex = Integer.parseInt(x[1]) - 1;
             tasks.unmarkTask(listIndex);
             Storage.saveListToData(tasks);
-            return outUi.print("This task is no longer considered done: \n"
+            return outUi.print("Our burdens grow in number; this one a familiar foe. \n"
                     + tasks.getTask(listIndex));
         });
         //List command
         flags.add(new ArrayList<>());
         instructions.add((x) -> {
-            return outUi.print("Your tasks are as follows:\n" + tasks.listOut());
+            return outUi.print("Behold the sum of your burdens. \n" + tasks.listOut());
         });
         //Delete command
         flags.add(new ArrayList<>(Arrays.asList(" ")));
@@ -76,7 +76,7 @@ class Nephilim {
             Task task = tasks.getTask(listIndex);
             tasks.deleteTask(listIndex);
             Storage.saveListToData(tasks);
-            return outUi.print("This task is no longer: \n" + task
+            return outUi.print("One more burden falls, no longer haunting us. \n" + task
                     + '\n' + tasks.getSize() + " tasks remain.");
         });
         //todo command
@@ -85,7 +85,7 @@ class Nephilim {
             Todo task = new Todo(x[1]);
             tasks.addTask(task);
             Storage.saveListToData(tasks);
-            return outUi.print("This task has been added: \n" + task);
+            return outUi.print("Our burdens grow with new tasks. \n" + task);
         });
         //deadline command
         flags.add(new ArrayList<>(Arrays.asList(" ", " /by ")));
@@ -93,7 +93,7 @@ class Nephilim {
             Deadline task = new Deadline(x[1], x[2]);
             tasks.addTask(task);
             Storage.saveListToData(tasks);
-            return outUi.print("This task has been added: \n" + task);
+            return outUi.print("Our burdens grow with new tasks, this one growing closer. \n" + task);
         });
         //event command
         flags.add(new ArrayList<>(Arrays.asList(" ", " /from ", " /to ")));
@@ -101,14 +101,14 @@ class Nephilim {
             Event task = new Event(x[1], x[2], x[3]);
             tasks.addTask(task);
             Storage.saveListToData(tasks);
-            return outUi.print("This task has been added: \n" + task);
+            return outUi.print("Our burdens grow with new tasks; at least this one has a beginning. And an end. \n" + task);
         });
         //find command
         flags.add(new ArrayList<>(Arrays.asList(" ")));
         instructions.add((x) -> {
             String output = tasks.listOut(x[1]);
             if (output.isEmpty()) {
-                return outUi.print("No task of that description can be found. Note this is case-sensitive.");
+                return outUi.print("No task of that description exists. Note this is case-sensitive.");
             } else {
                 return outUi.print("The following tasks have been found:\n" + output);
             }
@@ -118,7 +118,7 @@ class Nephilim {
         instructions.add((x) -> {
             String output = tasks.listOut(DateTimeParser.parseTime(x[1]));
             if (output.isEmpty()) {
-                return outUi.print("No task of that description can be found. Note this is case-sensitive.");
+                return outUi.print("No task of that description exists. Note this is case-sensitive.");
             } else {
                 return outUi.print("The following tasks have been found:\n" + output);
             }
@@ -161,7 +161,7 @@ class Nephilim {
      * @return Greeting message.
      */
     public String init() {
-        return outUi.print("Greetings from Nephilim-451.\nPlease state the nature of your request.");
+        return outUi.print("Greetings from Nephilim-451.\nWe shall face our burdens together.");
 
     }
 
