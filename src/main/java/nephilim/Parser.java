@@ -49,7 +49,10 @@ class Parser {
             evalString = evalString[1].split(flagSet.get(i), 2);
             if (evalString.length == 1) { //Length of 1 indicates that string could not be split according to flag: means flag is missing.
                 throw new NephilimIOMissingArgsException(input,
-                        "A flag is missing or a field is empty. Possible missing flag: " + flagSet.get(i));
+                        "A flag is missing. Possible missing flag: " + flagSet.get(i));
+            } else if (evalString[1].trim().isEmpty()) {
+                throw new NephilimIOMissingArgsException(input,
+                        "A field is empty. This is not allowed.");
             }
             output.add(evalString[0]);
         }

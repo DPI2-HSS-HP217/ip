@@ -4,18 +4,18 @@
 
 Nephilim, in theory, is just a simple Java-based task manager. However, like its mythological namesake, Nephilim is more like a mistake made by someone who played around with things **they shouldn't have**.
 
-- Getting Started
-- Commands
-    - Adding a task with no timing : `todo`
-    - Adding a task with a deadline : `deadline`
-    - Adding a task with a start and end date : `event`
-    - Deleting a task : `delete`
-    - Marking a task as complete : `mark`
-    - Marking a task as incomplete : `unmarking`
-    - Listing all known tasks : `list`
-    - Finding tasks that match a given descriptor : `find`
-    - Finding a task that falls on a given date : `schedule`
-    - Exiting the application : `bye`
+- [Getting Started](https://dpi2-hss-hp217.github.io/ip/#getting-started)
+- [Commands](https://dpi2-hss-hp217.github.io/ip/#commands)
+    - [Adding a task with no timing : `todo`](https://dpi2-hss-hp217.github.io/ip/#adding-a-task-with-no-timing--todo)
+    - [Adding a task with a deadline : `deadline`](https://dpi2-hss-hp217.github.io/ip/#adding-a-task-with-a-deadline--deadline)
+    - [Adding a task with a start and end date : `event`](https://dpi2-hss-hp217.github.io/ip/#adding-a-task-with-a-start-and-end-date--event)
+    - [Deleting a task : `delete`](https://dpi2-hss-hp217.github.io/ip/#deleting-a-task--delete)
+    - [Marking a task as complete : `mark`](https://dpi2-hss-hp217.github.io/ip/#marking-a-task-as-complete--mark)
+    - [Marking a task as incomplete : `unmarking`](https://dpi2-hss-hp217.github.io/ip/#marking-a-task-as-incomplete--unmark)
+    - [Listing all known tasks : `list`](https://dpi2-hss-hp217.github.io/ip/#listing-all-known-tasks--list)
+    - [Finding tasks that match a given descriptor : `find`](https://dpi2-hss-hp217.github.io/ip/#finding-tasks-that-match-a-given-descriptor--find)
+    - [Finding a task that falls on a given date : `schedule`](https://dpi2-hss-hp217.github.io/ip/#finding-a-task-that-falls-on-a-given-date--schedule)
+    - [Exiting the application : `bye`](https://dpi2-hss-hp217.github.io/ip/#exiting-the-application--bye)
 
 ## Getting started
 
@@ -29,8 +29,7 @@ You can use this affront to software development by performing the following rit
 
 ## Commands
 
-> [!NOTE]
-> Notes about the command format:
+> ### Notes about the command format:
 > - All words in square brackets are parameters to be supplied by the user.
     >
     >  e.g in todo [task name], [task name] is a parameter that can be used as todo Get apple from store
